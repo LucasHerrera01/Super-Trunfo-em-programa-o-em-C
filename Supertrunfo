@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+/*
+ Estrutura que representa uma carta do Super Trunfo.
+ Cada carta possui um nome e três atributos numéricos.
+*/
+struct Carta {
+    char nome[30];
+    int ataque;
+    int defesa;
+    int recuo;
+};
+
+int main() {
+    /*
+     Vetor de cartas (baralho).
+     Cada posição do vetor é uma carta diferente.
+    */
+    struct Carta cartas[5] = {
+        {"Brasil", 85, 90, 70},
+        {"Argentina", 88, 85, 75},
+        {"Alemanha", 90, 88, 72},
+        {"Franca", 87, 86, 78},
+        {"Italia", 82, 89, 74}
+    };
+
+    int cartaJogador, cartaComputador;
+    char escolha;
+    char atributoEscolhido[10];
+    int valorJogador, valorComputador;
+    int resultado; // 1 = vitória | 0 = empate | -1 = derrota
+
+    // Inicializa o gerador de números aleatórios
+    srand(time(NULL));
+
+    // Sorteia uma carta para o jogador e outra para o computador
+    cartaJogador = rand() % 5;
+    cartaComputador = rand() % 5;
+
+    printf("===== SUPER TRUNFO =====\n\n");
+
+    // Mostra a carta do jogador
+    printf("Sua carta: %s\n", cartas[cartaJogador].nome);
+    printf("A - Ataque: %d\n", cartas[cartaJogador].ataque);
+    printf("D - Defesa: %d\n", cartas[cartaJogador].defesa);
+    printf("R - Recuo: %d\n", cartas[cartaJogador].recuo);
+
+    // Menu de escolha do atributo
+    printf("\nEscolha um atributo (A/D/R): ");
+    scanf(" %c", &escolha);
+
+    printf("\nCarta do computador: %s\n", cartas[cartaComputador].nome);
+
+    // Verifica qual atributo foi escolhido
+    switch (escolha) {
+        case 'A':
+        case 'a':
+            sprintf(atributoEscolhido, "Ataque");
+            valorJogador = cartas[cartaJogador].ataque;
+            valorComputador = cartas[cartaComputador].ataque;
+            break;
+
+        case 'D':
+        case 'd':
+            sprintf(atributoEscolhido, "Defesa");
+            valorJogador = cartas[cartaJogador].defesa;
+            valorComputador = cartas[cartaComputador].defesa;
+            break;
+
+        case 'R':
+        case 'r':
+            sprintf(atributoEscolhido, "Recuo");
+            valorJogador = cartas[cartaJogador].recuo;
+            valorComputador = cartas[cartaComputador].recuo;
+            break;
+
+        default:
+            printf("Opcao invalida!\n");
+            return 0;
+    }
+
+    // Compara os valores escolhidos
+    if (valorJogador > valorComputador)
+        resultado = 1;
+    else if (valorJogador < valorComputador)
+        resultado = -1;
+    else
+        resultado = 0;
+
+    // ===== RESUMO DA RODADA =====
+    printf("\n===== RESUMO DA RODADA =====\n");
+    printf("Sua carta: %s\n", cartas[cartaJogador].nome);
+    printf("Carta do computador: %s\n", cartas[cartaComputador].nome);
+    printf("Atributo escolhido: %s\n", atributoEscolhido);
+    printf("Valores comparados: %d x %d\n", valorJogador, valorComputador);
+
+    if (resultado == 1)
+        printf("Resultado: Voce venceu!\n");
+    else if (resultado == -1)
+        printf("Resultado: Voce perdeu!\n");
+    else
+        printf("Resultado: Empate!\n");
+
+    return 0;
+}
